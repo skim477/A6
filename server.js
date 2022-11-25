@@ -215,24 +215,12 @@ const upload = multer({ storage: storage });
 
 
 app.post("/images/add", upload.single("imageFile"), (req, res) => {
-  /*
-  var formData = req.body;
-  let formFile = req.file;
-  const dataReceived = " Form data: " + JSON.stringify(req.body) + "<br>" +
-                       "File: " + JSON.stringify(formFile) + "<br>" +
-                       "<p style='color:red;'> Your user name is: " + formData.userName + "</p> <br>"+
-                       "<img src = '/images/uploaded/"+ formFile.filename +"' width=300 height =200/>";
-   res.send(dataReceived);
-  */
    res.redirect("/images");
 });
 
 
 app.get("/images", function(req,res){
   fs.readdir("./public/images/uploaded", function(err, items){
-    //var string = [];
-    //string = "images: " + JSON.stringify(items);
-    //res.send(string);
     res.render("images", {images: items});
   });
 });
@@ -251,7 +239,6 @@ app.post("/employees/add", (req,res)=>{
 
 app.post("/employee/update", (req, res) => {
   dataService.updateEmployee(req.body).then(()=>{
-      console.log(req.body);
       res.redirect("/employees");
   }).catch((err)=>{
     res.status(500).send("Unable to update Employee");

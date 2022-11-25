@@ -111,7 +111,10 @@ function addEmployee(employeeData){
     return new Promise(function (resolve, reject) {
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for(var i in employeeData){
-            i = "" ? null: i;
+            //i = "" ? null: i;
+            if(employeeData[i]==""){
+                employeeData[i] = null;
+            }
         };
         Employee.create(employeeData).then(data => {
             resolve(data);
@@ -183,7 +186,10 @@ function updateEmployee(employeeData){
     return new Promise(function (resolve, reject) {
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for(var i in employeeData){
-            i = "" ? null: i;
+            //i = "" ? null: i;
+            if(employeeData[i]==""){
+                employeeData[i] = null;
+            }
         };
         Employee.update(employeeData, {
             where: {
@@ -191,7 +197,7 @@ function updateEmployee(employeeData){
             }
         }).then(data => {
             resolve(data);
-        }).solve(error => {
+        }).catch(error => {
             reject("unable to update employee");
         });
     });
@@ -244,7 +250,7 @@ function getDepartmentById(id){
 function deleteEmployeeByNum(empNum){
     return new Promise(function (resolve, reject) {
 
-        Employee.destroy(empNum, {
+        Employee.destroy({
             where: {
                 employeeNum: empNum
             }
