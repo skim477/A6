@@ -270,7 +270,12 @@ app.post("/department/update", (req, res) => {
 app.get("/department/:departmentId", function(req,res){
   if(req.params.departmentId){
     dataService.getDepartmentById(req.params.departmentId).then((data)=>{
-      res.render("department", {department: data});
+
+      if (data == null) {
+        res.status(404).send("Employee Not Found");
+      } else {
+        res.render("department", {department: data});
+      }
     }).catch((err)=>{
       res.status(404).send("Department Not Found"); 
     });
