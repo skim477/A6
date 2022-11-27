@@ -7,7 +7,7 @@ other source
 *
 * Name: Seongjun Kim   Student ID: 157681206   Date: Nov 27, 2022
 *
-* Your app’s URL (from heroku) : https://damp-cliffs-07593.herokuapp.com/
+* Your app’s URL (from Cyclic) : https://misty-knickers-bat.cyclic.app
 *
 *************************************************************************/
 
