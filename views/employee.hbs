@@ -84,10 +84,10 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="status">Status:</label><br/>
-                            <input class="checkbox-inline" id="fullTime" name="status" type="radio" {{#equal viewData.employee.status "Full Time"}}checked{{/equal}} />
+                            <input class="checkbox-inline" id="fullTime" name="status" type="radio" value="Full Time" {{#equal viewData.employee.status "Full Time"}}checked{{/equal}} />
                             <label for="fullTime">Full Time</label>
-                            <input class="checkbox-inline" id="partTime" name="status" type="radio" {{#equal viewData.employee.status "Part Time"}}checked{{/equal}} />
-                            <label for="fullTime">Part Time</label>
+                            <input class="checkbox-inline" id="partTime" name="status" type="radio" value="Part Time" {{#equal viewData.employee.status "Part Time"}}checked{{/equal}} />
+                            <label for="partTime">Part Time</label>
                         </div>
                     </div>
                     <div class="col-md-3">

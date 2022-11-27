@@ -75,11 +75,20 @@ app.get("/home", function(req,res){
 app.get("/about", function(req,res){
     res.render("about");
   });
-
+/*
 app.get("/employees/add", function(req,res){
   res.render("addEmployee");
 });
-  
+*/
+
+app.get("/employees/add", (req,res)=>{
+  dataService.getDepartments().then((data)=>{
+    res.render("addEmployee", {departments: data});
+  }).catch((err)=>{
+    res.render("addEmployee", {departments: []});
+  });
+});
+
 app.get("/images/add", function(req,res){
   res.render("addImage");
 });
@@ -95,7 +104,7 @@ app.get("/departments", function(req,res){
     /*return JSON data*/
     //res.json(data);
     res.render("departments", {departments: data});
-  }).catch(()=>{
+  }).catch((err)=>{
      /* return err message in the JSON format: {message: err}*/
     //res.json({message: err});
     res.render("departments", {message: "no results"});
@@ -114,7 +123,7 @@ app.get("/departments", function(req,res){
         console.log("Status: " + req.query.status);
         //res.json(data);
         res.render("employees", {employees: data});
-      }).catch(()=>{
+      }).catch((err)=>{
         //res.json({message: err});
         res.render("employees",{message: "no results"});
       });
@@ -125,7 +134,7 @@ app.get("/departments", function(req,res){
         console.log("department: " + req.query.department);
         //res.json(data);
         res.render("employees", {employees: data});
-      }).catch(()=>{
+      }).catch((err)=>{
         //res.json({message: err});
         res.render("employees",{message: "no results"});
       });
@@ -136,7 +145,7 @@ app.get("/departments", function(req,res){
         console.log("employeeManagerNum: " + req.query.manager);
         //res.json(data);
         res.render("employees", {employees: data});
-      }).catch(()=>{
+      }).catch((err)=>{
         //res.json({message: err});
         res.render("employees",{message: "no results"});
       });
@@ -145,7 +154,7 @@ app.get("/departments", function(req,res){
     else{
         dataService.getAllEmployees().then((data)=>{
         res.render("employees", {employees: data});
-        }).catch(()=>{
+        }).catch((err)=>{
             res.render("employees",{message: "no results"});
           });
     };
@@ -225,14 +234,11 @@ app.get("/images", function(req,res){
   });
 });
 
-
 app.post("/employees/add", (req,res)=>{
-  dataService.addEmployee(req.body).then(dataService.getDepartments(req.body)).then((data)=>{
-    res.render("addEmployee", {departments: data});
-  }).then(()=>{
+  dataService.addEmployee(req.body).then(()=>{
   res.redirect("/employees");
-  }).catch(()=>{
-    res.render("addEmployee", {departments: []});
+  }).catch((err)=>{
+    res.status(500).send("Unable to add Employee");
   })
 });
 
@@ -301,7 +307,7 @@ app.use((req, res)=>{
 dataService.initialize().then(() => { 
   console.log("start the server");
   app.listen(HTTP_PORT, onHttpStart);
-}).catch(()=>{ 
+}).catch((err)=>{ 
   /*output the error to the console */
   console.log("error");
 });

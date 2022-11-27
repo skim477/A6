@@ -78,7 +78,7 @@ function initialize(){
         sequelize.sync().then(function() {
             resolve();
             console.log("success!");
-        }).catch(function(error){
+        }).catch(function(err){
             reject("unable to sync the database");
         });
     });
@@ -86,9 +86,10 @@ function initialize(){
 
 function getAllEmployees(){
     return new Promise(function (resolve, reject) {
-        Employee.findAll().then(data => {
+        Employee.findAll({order:[['employeeNum', 'ASC']]} ).then(data => {
+
             resolve(data);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -98,9 +99,9 @@ function getAllEmployees(){
 
 function getDepartments(){
     return new Promise(function (resolve, reject) {
-        Department.findAll().then(data => {
+        Department.findAll({order:[['departmentId', 'ASC']]} ).then(data => {
             resolve(data);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -111,14 +112,14 @@ function addEmployee(employeeData){
     return new Promise(function (resolve, reject) {
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for(var i in employeeData){
-            //i = "" ? null: i;
-            if(employeeData[i]==""){
-                employeeData[i] = null;
-            }
+           // i == "" ? null: i;
+           if(employeeData[i]==""){
+            employeeData[i]=null;
+        }
         };
-        Employee.create(employeeData).then(data => {
-            resolve(data);
-        }).catch(error =>{
+        Employee.create(employeeData).then(() => {
+            resolve();
+        }).catch(err =>{
            reject("unable to create employee"); 
         })
     });
@@ -129,10 +130,11 @@ function getEmployeeByStatus(status){
         Employee.findAll({
             where: {
                 status: status
-            }
+            },
+            order:[['employeeNum', 'ASC']]
         }).then(data => {
             resolve(data);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -144,10 +146,11 @@ function getEmployeeByDepartment(department){
         Employee.findAll({
             where: {
                 departmentId: department
-            }
+            },
+            order:[['employeeNum', 'ASC']]
         }).then(data => {
             resolve(data);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -161,7 +164,7 @@ function getEmployeeByManager(manager){
             }
         }).then(data => {
             resolve(data);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -176,7 +179,7 @@ function getEmployeeByNum(empNum){
             }
         }).then(data => {
             resolve(data[0]);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -186,18 +189,18 @@ function updateEmployee(employeeData){
     return new Promise(function (resolve, reject) {
         employeeData.isManager = (employeeData.isManager) ? true : false;
         for(var i in employeeData){
-            //i = "" ? null: i;
+            //i == "" ? null: i;
             if(employeeData[i]==""){
-                employeeData[i] = null;
+                employeeData[i]=null;
             }
         };
         Employee.update(employeeData, {
             where: {
                 employeeNum: employeeData.employeeNum
             }
-        }).then(data => {
-            resolve(data);
-        }).catch(error => {
+        }).then(() => {
+            resolve();
+        }).catch(err => {
             reject("unable to update employee");
         });
     });
@@ -206,11 +209,11 @@ function updateEmployee(employeeData){
 function addDepartment(departmentData){
     return new Promise(function (resolve, reject) {
         for(var i in departmentData){
-            i = "" ? null: i;
+            i == "" ? null: i;
         };
         Department.create(departmentData).then(data => {
             resolve(data);
-        }).catch(error =>{
+        }).catch(err =>{
            reject("unable to create department"); 
         })
     });
@@ -219,15 +222,16 @@ function addDepartment(departmentData){
 function updateDepartment(departmentData){
     return new Promise(function (resolve, reject) {
         for(var i in departmentData){
-            i = "" ? null: i;
+            i == "" ? null: i;
         };
         Department.update(departmentData, {
             where: {
                 departmentId: departmentData.departmentId
             }
+                
         }).then(data => {
             resolve(data);
-        }).catch(error =>{
+        }).catch(err =>{
            reject("unable to update department"); 
         })
     });
@@ -241,7 +245,7 @@ function getDepartmentById(id){
             }
         }).then(data => {
             resolve(data[0]);
-        }).catch(error => {
+        }).catch(err => {
             reject("no results returned");
         });
     });
@@ -256,7 +260,7 @@ function deleteEmployeeByNum(empNum){
             }
         }).then(() => {
             resolve("deleted");
-        }).catch(error =>{
+        }).catch(err =>{
            reject("unable to delete employee"); 
         })
     });
