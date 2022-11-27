@@ -17,5 +17,13 @@
     "sequelize": "^6.25.7"
   },
   "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0202ksj0202/A5.git"
+  },
+  "bugs": {
+    "url": "https://github.com/0202ksj0202/A5/issues"
+  },
+  "homepage": "https://github.com/0202ksj0202/A5#readme",
   "description": ""
 }
