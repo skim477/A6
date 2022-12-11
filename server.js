@@ -7,7 +7,7 @@ other source
 *
 * Name: Seongjun Kim   Student ID: 157681206   Date: Dec 10, 2022
 *
-* Your app’s URL (from Cyclic) : 
+* Your app’s URL (from Cyclic) : https://long-tux-fish.cyclic.app
 *
 *************************************************************************/
 
